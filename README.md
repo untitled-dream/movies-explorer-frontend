@@ -1,7 +1,7 @@
 # Movies Explorer
 
 ### 
-> The Mesto project created with React.
+> The Movies Explorer project created with React.
 
 
 ## Table of Contents
