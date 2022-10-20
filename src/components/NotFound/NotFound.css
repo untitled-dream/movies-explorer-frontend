@@ -1,0 +1,77 @@
+.not-found {
+  align-items: center;
+  color: var(--text-color-primary, white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.not-found__wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+}
+
+.not-found__error-name,
+.not-found__error-status {
+  font-weight: 400;
+  margin: 0;
+}
+
+.not-found__error-status {
+  font-size: 140px;
+  line-height: 169px;
+}
+
+.not-found__error-name {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.not-found__button_type_back {
+  border: none;
+  background-color: transparent;
+  color: var(--accent-color-secondary, #4285f4);
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  transform: translateX(-50%);
+  transition: opacity var(--transition-duration, 0.5s);
+}
+
+.not-found__button_type_back:hover {
+  opacity: var(--opacity-value);
+  transition: opacity var(--transition-duration, 0.5s);
+}
+
+@media screen and (max-width: 768px) {
+  .not-found__button_type_back {
+    bottom: 222px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .not-found__error-status {
+    font-size: 80px;
+    line-height: 97px;
+  }
+
+  .not-found__error-name,
+  .not-found__button_type_back {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .not-found__button_type_back {
+    bottom: 30px;
+  }
+}

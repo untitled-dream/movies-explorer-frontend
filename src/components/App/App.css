@@ -1,0 +1,49 @@
+.app {
+  --accent-color-primary: #3ddc84;
+  --accent-color-secondary: #4285f4;
+  --accent-color-alternative: #ee3465;
+
+  --background-color-primary: #202020;
+  --background-color-alternative: #272727;
+  --background-color-secondary: #303030;
+  --background-color-movie-card: #222222;
+
+  --text-color-primary: white;
+  --text-color-alternative: #8b8b8b;
+  --text-color-danger: #ee3465;
+  --text-color-link: #4285f4;
+  --text-color-placeholder: #8b8b8b;
+
+  --input-color-decoration: #424242;
+  --input-color-decoration-active: #848484;
+
+  --opacity-value: 0.65;
+
+  --transition-duration: .25s;
+  --transition-duration-underline: .5s;
+
+  background-color: var(--background-color-primary, black);
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  font-family: "Inter", Arial, sans-serif;
+
+  min-height: 100vh;
+  min-width: 320px;
+  margin: 0 auto;
+
+  padding: 0;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+
+  width: 100%;
+
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
