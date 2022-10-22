@@ -1,0 +1,123 @@
+.search {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: 1280px;
+  padding: 89px 70px 0;
+  position: relative;
+  width: 100%;
+}
+
+.search__form {
+  align-items: center;
+  border-bottom: 1px solid var(--input-color-decoration, #424242);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 39px;
+  position: relative;
+  width: 100%;
+}
+
+.search__form-wrapper {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.search__input {
+  background-color: #2f2f2f;
+  border: none;
+  border-radius: 4px;
+  color: var(--text-color-primary, white);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  box-sizing: border-box;
+  padding: 15px 22px;
+  transition: box-shadow var(--transition-duration, .5s);
+  width: 100%;
+}
+
+.search__input:focus {
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  outline: none;
+  transition: box-shadow var(--transition-duration, .5s);
+}
+
+.search__input::placeholder {
+  color: var(--text-color-placeholder, #8b8b8b);
+}
+
+.search__error {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: var(--text-color-danger, #ee3465);
+  position: absolute;
+  top: 70px;
+  left: 0;
+}
+
+.search__button {
+  background-color: var(--accent-color-secondary, #4285f4);
+  border: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 13px 5px;
+  transition: opacity var(--transition-duration, .5s);
+  height: 44px;
+  width: 70px;
+}
+
+.search__button:hover {
+  opacity: var(--opacity-value, .8);
+  transition: opacity var(--transition-duration, .5s);
+}
+
+.search__button-text {
+  color: var(--text-color-primary, white);
+  display: block;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  min-width: 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .search {
+    padding: 73px 30px 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .search {
+    padding: 85px 14px 0;
+  }
+
+  .search__form {
+    padding-bottom: 43px;
+  }
+
+  .search__input {
+    text-align: left;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 13px 16px;
+  }
+
+  .search__button {
+    top: -10px;
+  }
+
+  .search__form::before {
+    content: none;
+  }
+
+  .search__error {
+    font-size: 10px;
+    top: 60px;
+  }
+}

@@ -1,0 +1,113 @@
+.footer {
+  max-width: 1280px;
+  padding: 79px 0 0;
+  width: 100%;
+}
+
+.footer__wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 70px;
+}
+
+.footer__heading {
+  border-bottom: 1px solid var(--input-color-decoration, #424242);
+  color: var(--text-color-alternative, #8b8b8b);
+  font-style: normal;
+  margin: 0;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.footer__container {
+  align-items: center;
+  color: var(--text-color-primary, white);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 0 20px 0;
+}
+
+.footer__heading,
+.footer__list {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.footer__list {
+  display: flex;
+  font-style: normal;
+  justify-content: space-between;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__link {
+  color: inherit;
+  padding-bottom: 2px;
+  position: relative;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.footer__link:after {
+  content: "";
+  background-color: var(--text-color-primary, white);
+  height: 1px;
+  transform: scaleX(0);
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  transform-origin: bottom right;
+  transition: transform var(--transition-duration-underline, .5s);
+  width: 100%;
+}
+
+.footer__link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.footer__copyright {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.23;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .footer__wrapper {
+    margin: 0 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .footer__wrapper {
+    margin: 0 10px;
+  }
+
+  .footer__heading,
+  .footer__list {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .footer__container {
+    flex-direction: column-reverse;
+    margin: 0 0 10px;
+  }
+
+  .footer__list {
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    margin: 30px 0;
+  }
+
+  .footer__copyright {
+    color: var(--text-color-alternative, #272727);
+  }
+}

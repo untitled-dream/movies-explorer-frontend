@@ -1,0 +1,36 @@
+.support {
+  color: var(--text-color-alternative, #8b8b8b);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+}
+
+.support__link {
+  color: var(--text-color-link, #4285f4);
+  line-height: 0;
+  max-width: 38px;
+  text-decoration: none;
+  transition: opacity var(--transition-duration, 0.5s);
+}
+
+.support__link {
+  margin-left: 6px;
+}
+
+.support__link:hover {
+  opacity: var(--opacity-value, 0.8);
+}
+
+@media screen and (max-width: 500px) {
+  .support {
+    font-size: 12px;
+    line-height: 15px;
+    top: calc(100% + 14px);
+  }
+}
