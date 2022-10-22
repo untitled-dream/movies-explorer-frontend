@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 
 import Logo from "../Logo/Logo";
-import PasswordDisplay from "../PasswordDisplay/PasswordDisplay";
 import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
 import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Login = ({ handleRegister, isPasswordDisplay, onPasswordDisplay }) => {
+const Login = ({ handleRegister }) => {
   const { inputValue, errorText, isValid, handleChange, resetForm } =
     useFormValidation();
 
@@ -58,17 +57,13 @@ const Login = ({ handleRegister, isPasswordDisplay, onPasswordDisplay }) => {
               className={`login__input ${
                 errorText.password && "login__input_error"
               }`}
-              type={isPasswordDisplay ? "text" : "password"}
+              type="password"
               id="password"
               name="password"
               onChange={handleChange}
               value={inputValue.password || ""}
               autoComplete="off"
               required
-            />
-            <PasswordDisplay
-              isDisplay={isPasswordDisplay}
-              onDisplay={onPasswordDisplay}
             />
             <span className="login__error">{errorText.password || ""}</span>
           </label>

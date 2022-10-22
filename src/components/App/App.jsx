@@ -24,7 +24,6 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   const [currentUser, setCurrentUser] = useState({});
 
-  const [isPasswordDisplay, setPasswordDisplay] = useState(false);
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
 
   const headerRoutes = ["/", "/movies", "/saved-movies", "/profile"];
@@ -36,10 +35,6 @@ const App = () => {
 
   function onClickBurgerMenu() {
     setIsBurgerMenuOpened(!isBurgerMenuOpened);
-  }
-
-  function handlePasswordDisplay() {
-    setPasswordDisplay(!isPasswordDisplay);
   }
 
   return (
@@ -57,24 +52,10 @@ const App = () => {
             <Main />
           </Route>
           <Route exact path="/signup">
-            {!loggedIn ? (
-              <Register
-                isPasswordDisplay={isPasswordDisplay}
-                onPasswordDisplay={handlePasswordDisplay}
-              />
-            ) : (
-              <Redirect to="/" />
-            )}
+            {!loggedIn ? <Register /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/signin">
-            {!loggedIn ? (
-              <Login
-                isPasswordDisplay={isPasswordDisplay}
-                onPasswordDisplay={handlePasswordDisplay}
-              />
-            ) : (
-              <Redirect to="/" />
-            )}
+            {!loggedIn ? <Login /> : <Redirect to="/" />}
           </Route>
           <ProtectedRoute
             path="/movies"
