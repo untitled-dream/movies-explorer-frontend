@@ -74,6 +74,11 @@
   background-image: url('../../images/icon-like-active.svg');
 }
 
+.movies-card__button_type_unsave {
+  background-image: url('../../images/icon-unsave.svg');
+  opacity: 0;
+}
+
 .movies-card:hover .movies-card__button_type_unsave:hover {
   opacity: var(--opacity-value, .8);
 }

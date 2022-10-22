@@ -2,7 +2,7 @@ import "./MoviesCard.css";
 
 import { useLocation } from "react-router-dom";
 
-const MoviesCard = ({ movie }) => {
+const MoviesCard = ({ movie, saved }) => {
   const location = useLocation();
 
   return (
@@ -21,12 +21,14 @@ const MoviesCard = ({ movie }) => {
           {location.pathname === "/movies" && (
             <button
               type="button"
-              className="movies-card__button movies-card__button_type_save"
+              className={`movies-card__button movies-card__button_type_${
+                saved ? "saved" : "save"
+              }`}
             ></button>
           )}
           {location.pathname === "/saved-movies" && (
             <button
-              className="movies-card__button movies-card__button_type_saved"
+              className="movies-card__button movies-card__button_type_unsave"
               type="button"
               title="Удалить фильм из сохранённых"
             ></button>
