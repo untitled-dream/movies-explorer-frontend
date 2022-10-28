@@ -83,7 +83,8 @@ const Movies = ({
           setIsTooltip({
             isOpen: true,
             state: false,
-            messageText: "Во время запроса произошла ошибка",
+            messageText:
+              "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз",
           })
         )
         .finally(() => setIsLoader(false));

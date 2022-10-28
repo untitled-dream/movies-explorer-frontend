@@ -43,7 +43,7 @@ const SavedMovies = ({ onDislikeClick, savedMovies, setIsTooltip }) => {
     } else {
       setIsShortMovies(false);
       localStorage.setItem(
-        `${currentUser.email} - shortSavedMoviesSwitch`,
+        `${currentUser.email} - shortSavedMoviesSwitcher`,
         false
       );
       filteredMovies.length === 0 ? setNotFound(true) : setNotFound(false);
