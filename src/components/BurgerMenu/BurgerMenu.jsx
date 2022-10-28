@@ -1,20 +1,21 @@
 import "./BurgerMenu.css";
 
 import { useEffect } from "react";
-import useScreenWidth from "../../hooks/useScreenWidth";
+import { useMediaQuery } from "react-responsive";
 
 const BurgerMenu = ({ isBurgerMenuOpened, onClickBurgerMenu }) => {
-  const screenWidth = useScreenWidth(); 
+  const isMobile = useMediaQuery({ query: `(max-width: 768px)` });
+
   
   function handleOnClickBurger() {
     onClickBurgerMenu();
   }
 
   useEffect(() => {
-    if (screenWidth < 768 && isBurgerMenuOpened) {
+    if (!isMobile && isBurgerMenuOpened) {
       onClickBurgerMenu();
     }
-  }, [isBurgerMenuOpened, screenWidth, onClickBurgerMenu]);
+  }, [isBurgerMenuOpened, isMobile, onClickBurgerMenu]);
 
   return (
     <button
