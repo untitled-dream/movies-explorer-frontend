@@ -8,18 +8,16 @@ const Profile = ({ handleSignOut, handleProfile }) => {
     useFormValidation();
   const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    if (currentUser) {
-      resetForm(currentUser, {}, true);
-    }
-  }, [currentUser, resetForm]);
-  
   function handleSubmit(evt) {
     evt.preventDefault();
     handleProfile(inputValue);
   }
 
-  const requirementValidity =
+  useEffect(() => {
+      resetForm(currentUser, {}, true);
+  }, [currentUser, resetForm]);
+
+  const requirementValidation =
     !isValid ||
     (currentUser.name === inputValue.name &&
       currentUser.email === inputValue.email);
@@ -33,7 +31,7 @@ const Profile = ({ handleSignOut, handleProfile }) => {
         onSubmit={handleSubmit}
       >
         <h1 className="profile__heading">{`Привет, ${
-          currentUser.name || ""
+          currentUser.name.replace(/\s/g, "\u00A0") || ""
         }!`}</h1>
         <fieldset className="profile__input-wrapper">
           <label className="profile__field">
@@ -80,9 +78,9 @@ const Profile = ({ handleSignOut, handleProfile }) => {
           <button
             type="submit"
             className={`profile__button profile__button_type_edit ${
-              requirementValidity ? "profile__button_state_disabled" : ""
+              requirementValidation ? "profile__button_state_disabled" : ""
             }`}
-            disabled={requirementValidity ? true : false}
+            disabled={requirementValidation ? true : false}
           >
             Редактировать
           </button>

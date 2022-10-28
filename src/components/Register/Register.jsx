@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "./Register.css";
@@ -9,17 +8,15 @@ import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Register = () => {
+const Register = ({ handleRegister }) => {
   const { inputValue, errorText, isValid, handleChange, resetForm } =
     useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-  }
-
-  useEffect(() => {
+    handleRegister(inputValue);
     resetForm();
-  }, [resetForm]);
+  }
 
   return (
     <main className="register">

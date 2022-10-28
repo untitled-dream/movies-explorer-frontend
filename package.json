@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "npm run build && scp -r ./build/* untitled-dream@158.160.2.171:/home/untitled-dream"
+    "deploy": "npm run build && scp -r ./build/* untitled-dream@158.160.2.171:/home/untitled-dream/movies-explorer-frontend"
   },
   "eslintConfig": {
     "extends": [

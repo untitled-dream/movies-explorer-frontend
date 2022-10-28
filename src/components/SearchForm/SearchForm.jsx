@@ -7,43 +7,45 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useFormValidation } from "../../hooks/useFormValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const SearchForm = ({ handleSearchSubmit, handleShortFilms, shortMovies }) => {
-  const currentUser = useContext(CurrentUserContext);
+const SearchForm = ({
+  handleSearchSubmit,
+  handleShortFilms,
+  isShortMovies,
+}) => {
   const location = useLocation();
+  const currentUser = useContext(CurrentUserContext);
 
-  const { inputValue, handleChange, isValid, setIsValid } = useFormValidation();
   const [errorQuery, setErrorQuery] = useState("");
+  const { inputValue, handleChange, isValid } = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    isValid
+    inputValue
       ? handleSearchSubmit(inputValue.search)
-      : setErrorQuery("Нужно ввести ключевое слово.");
+      : setErrorQuery("Требуется ввести ключевое слово");
   }
 
   useEffect(() => {
     setErrorQuery("");
   }, [isValid]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (
       location.pathname === "/movies" &&
       localStorage.getItem(`${currentUser.email} - movieSearch`)
     ) {
-      const searchValue = localStorage.getItem(
+      inputValue.search = localStorage.getItem(
         `${currentUser.email} - movieSearch`
       );
-      inputValue.search = searchValue;
-      setIsValid(true);
     }
-  }, [currentUser]);
+  }, [currentUser, location.pathname, inputValue]);*/
 
   return (
     <section className="search">
       <form
         className="search__form"
         name="search"
-        noValidate
+        id="search"
         onSubmit={handleSubmit}
       >
         <div className="search__form-wrapper">
@@ -64,7 +66,7 @@ const SearchForm = ({ handleSearchSubmit, handleShortFilms, shortMovies }) => {
           </button>
         </div>
         <FilterCheckbox
-          shortMovies={shortMovies}
+          isShortMovies={isShortMovies}
           handleShortFilms={handleShortFilms}
         />
       </form>

@@ -9,13 +9,13 @@ import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Login = ({ handleRegister }) => {
+const Login = ({ handleLogin }) => {
   const { inputValue, errorText, isValid, handleChange, resetForm } =
     useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    handleRegister(inputValue);
+    handleLogin(inputValue);
   }
 
   useEffect(() => {

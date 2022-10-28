@@ -11,7 +11,6 @@ const Navigation = ({ loggedIn, isBurgerMenuOpened, onClickBurgerMenu }) => {
   function handleClickOverlay(evt) {
     evt.stopPropagation();
   }
-
   return (
     <>
       {!loggedIn ? (
