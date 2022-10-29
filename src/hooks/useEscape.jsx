@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-export default function useEscapePress(onClose, isOpen) {
+export default function useEscape(onClose, isOpen) {
   useEffect(() => {
     if (isOpen) {
-      const onEscapeClose = (evt) => {
+      function onEscapeClose(evt) {
         if (evt.key === "Escape") {
           onClose();
         }

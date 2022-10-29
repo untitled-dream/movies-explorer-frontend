@@ -67,15 +67,15 @@
 }
 
 .movies-card__button_type_save {
-  background-image: url('../../images/icon-like.svg');
+  background-image: url('../../images/icon-film-save.svg');
 }
 
 .movies-card__button_type_saved {
-  background-image: url('../../images/icon-like-active.svg');
+  background-image: url('../../images/icon-film-save-active.svg');
 }
 
 .movies-card__button_type_unsave {
-  background-image: url('../../images/icon-unsave.svg');
+  background-image: url('../../images/icon-film-unsave.svg');
   opacity: 0;
 }
 

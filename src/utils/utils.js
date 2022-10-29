@@ -14,19 +14,19 @@ function filterShortMovies(movies) {
   return movies.filter(movie => movie.duration < SHORTMOVIE_DURATION);
 }
 
-function filterMovies(movies, userQuery, shortMoviesCheckbox) {
-  const moviesByUserQuery = movies.filter((movie) => {
+function filterMovies(movies, query, isShortMoviesSwitcher) {
+  const moviesByQuery = movies.filter((movie) => {
     const movieRU = String(movie.nameRU).toLowerCase().trim();
     const movieEN = String(movie.nameEN).toLowerCase().trim();
-    const userMovie = userQuery.toLowerCase().trim();
+    const userMovie = query.toLowerCase().trim();
 
     return movieRU.indexOf(userMovie) !== -1 || movieEN.indexOf(userMovie) !== -1;
   });
 
-  if (shortMoviesCheckbox) {
-    return filterShortMovies(moviesByUserQuery);
+  if (isShortMoviesSwitcher) {
+    return filterShortMovies(moviesByQuery);
   } else {
-    return moviesByUserQuery;
+    return moviesByQuery;
   }
 }
 

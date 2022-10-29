@@ -3,9 +3,9 @@ import { Link, NavLink } from "react-router-dom";
 import "./Navigation.css";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 
-const Navigation = ({ loggedIn, isBurgerMenuOpened, onClickBurgerMenu }) => {
+const Navigation = ({ loggedIn, isBurgerMenu, onClickBurgerMenu }) => {
   const activeLink = `navigation__link_active_${
-    isBurgerMenuOpened ? "mobile" : "desktop"
+    isBurgerMenu ? "mobile" : "desktop"
   }`;
 
   function handleClickOverlay(evt) {
@@ -37,21 +37,21 @@ const Navigation = ({ loggedIn, isBurgerMenuOpened, onClickBurgerMenu }) => {
       ) : (
         <nav
           className={`navigation navigation_${
-            isBurgerMenuOpened ? "opened" : "closed"
+            isBurgerMenu ? "opened" : "closed"
           }`}
-          onClick={isBurgerMenuOpened ? onClickBurgerMenu : undefined}
+          onClick={isBurgerMenu ? onClickBurgerMenu : undefined}
         >
           <BurgerMenu
-            isBurgerMenuOpened={isBurgerMenuOpened}
+            isBurgerMenu={isBurgerMenu}
             onClickBurgerMenu={onClickBurgerMenu}
           />
           <ul
             className={`navigation__list navigation__list_logged navigation__list_${
-              isBurgerMenuOpened ? "opened" : "closed"
+              isBurgerMenu ? "opened" : "closed"
             }`}
             onClick={handleClickOverlay}
           >
-            {isBurgerMenuOpened && (
+            {isBurgerMenu && (
               <li className="navigation__item">
                 <NavLink
                   className="navigation__link"

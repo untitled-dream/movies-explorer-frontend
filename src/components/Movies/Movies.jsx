@@ -1,6 +1,6 @@
 import "./Movies.css";
 
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import {
   transformMovies,
@@ -13,25 +13,21 @@ import moviesAPI from "../../utils/MoviesAPI";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-
 const Movies = ({
-  setIsLoader,
-  setIsTooltip,
+  onSaveClick,
   savedMovies,
-  onLikeClick,
-  onDislikeClick,
+  setIsTooltip,
+  onUnsaveClick,
+  setIsPreloader,
 }) => {
-  const currentUser = useContext(CurrentUserContext);
-
-  const [isShortMovies, setIsShortMovies] = useState(false);
+  const [isShort, setIsShort] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [isAllMovies, setIsAllMovies] = useState([]);
   const [defaultMovies, setDefaultMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const [isAllMovies, setIsAllMovies] = useState([]);
 
-  function handleSetFilteredMovies(movies, userQuery, shortMoviesCheckbox) {
-    const moviesList = filterMovies(movies, userQuery, shortMoviesCheckbox);
+  function handleSetFilteredMovies(movies, query, isShortSwitcher) {
+    const moviesList = filterMovies(movies, query, isShortSwitcher);
 
     if (moviesList.length === 0) {
       setIsTooltip({
@@ -45,39 +41,32 @@ const Movies = ({
     }
     setDefaultMovies(moviesList);
     setFilteredMovies(
-      shortMoviesCheckbox ? filterShortMovies(moviesList) : moviesList
+      isShortSwitcher ? filterShortMovies(moviesList) : moviesList
     );
-    localStorage.setItem(
-      `${currentUser.email} - movies`,
-      JSON.stringify(moviesList)
-    );
+    localStorage.setItem("movies", JSON.stringify(moviesList));
   }
 
   function handleShortFilms() {
-    setIsShortMovies(!isShortMovies);
-    if (!isShortMovies) {
+    setIsShort(!isShort);
+    if (!isShort) {
       setFilteredMovies(filterShortMovies(defaultMovies));
     } else {
       setFilteredMovies(defaultMovies);
     }
-    localStorage.setItem(`${currentUser.email} - shortMovies`, !isShortMovies);
+    localStorage.setItem("isShort", !isShort);
   }
 
   function handleSearchSubmit(inputValue) {
-    localStorage.setItem(`${currentUser.email} - movieSearch`, inputValue);
-    localStorage.setItem(`${currentUser.email} - shortMovies`, isShortMovies);
+    localStorage.setItem("searchValue", inputValue);
+    localStorage.setItem("isShort", isShort);
 
     if (isAllMovies.length === 0) {
-      setIsLoader(true);
+      setIsPreloader(true);
       moviesAPI
         .getMovies()
         .then((movies) => {
           setIsAllMovies(movies);
-          handleSetFilteredMovies(
-            transformMovies(movies),
-            inputValue,
-            isShortMovies
-          );
+          handleSetFilteredMovies(transformMovies(movies), inputValue, isShort);
         })
         .catch(() =>
           setIsTooltip({
@@ -87,48 +76,44 @@ const Movies = ({
               "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз",
           })
         )
-        .finally(() => setIsLoader(false));
+        .finally(() => setIsPreloader(false));
     } else {
-      handleSetFilteredMovies(isAllMovies, inputValue, isShortMovies);
+      handleSetFilteredMovies(isAllMovies, inputValue, isShort);
     }
   }
 
   useEffect(() => {
-    if (filteredMovies.length === 0 && isShortMovies) {
+    if (filteredMovies.length === 0 && isShort) {
       setNotFound(true);
     } else {
       setNotFound(false);
     }
-  }, [filteredMovies, isShortMovies]);
+  }, [filteredMovies, isShort]);
 
   useEffect(() => {
-    if (localStorage.getItem(`${currentUser.email} - shortMovies`) === "true") {
-      setIsShortMovies(true);
+    if (localStorage.getItem("isShort") === "true") {
+      setIsShort(true);
     } else {
-      setIsShortMovies(false);
+      setIsShort(false);
     }
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
-    if (localStorage.getItem(`${currentUser.email} - movies`)) {
-      const movies = JSON.parse(
-        localStorage.getItem(`${currentUser.email} - movies`)
-      );
+    if (localStorage.getItem("movies")) {
+      const movies = JSON.parse(localStorage.getItem("movies"));
       setDefaultMovies(movies);
-      if (
-        localStorage.getItem(`${currentUser.email} - shortMovies`) === "true"
-      ) {
+      if (localStorage.getItem("isShort") === "true") {
         setFilteredMovies(filterShortMovies(movies));
       } else {
         setFilteredMovies(movies);
       }
     }
-  }, [currentUser]);
+  }, []);
 
   return (
     <main className="movies">
       <SearchForm
-        isShortMovies={isShortMovies}
+        isShort={isShort}
         handleShortFilms={handleShortFilms}
         handleSearchSubmit={handleSearchSubmit}
       />
@@ -136,8 +121,8 @@ const Movies = ({
         <MoviesCardList
           movieList={filteredMovies}
           savedMovies={savedMovies}
-          onLikeClick={onLikeClick}
-          onDislikeClick={onDislikeClick}
+          onSaveClick={onSaveClick}
+          onUnsaveClick={onUnsaveClick}
         />
       )}
     </main>

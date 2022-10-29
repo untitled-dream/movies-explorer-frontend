@@ -40,28 +40,28 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
 
-  const [savedMovies, setSavedMovies] = useState([]);
-
   const [isLoad, setIsLoad] = useState(false);
-  const [isLoader, setIsLoader] = useState(false);
+  const [isPreloader, setIsPreloader] = useState(false);
   const [isTooltip, setIsTooltip] = useState({
     isOpen: false,
     state: false,
     messageText: "",
   });
-  const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
+  const [isBurgerMenu, setIsBurgerMenu] = useState(false);
+
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const headerRoutes = ["/", "/movies", "/saved-movies", "/profile"];
   const footerRoutes = ["/", "/movies", "/saved-movies"];
 
-  function handleRegister(registrationValue) {
-    setIsLoader(true);
+  function handleRegister(registrationData) {
+    setIsPreloader(true);
     mainAPI
-      .createUser(registrationValue)
+      .createUser(registrationData)
       .then(() => {
         handleLogin({
-          email: registrationValue.email,
-          password: registrationValue.password,
+          email: registrationData.email,
+          password: registrationData.password,
         });
       })
       .catch((err) =>
@@ -73,11 +73,11 @@ const App = () => {
             : `Error: ${err} - ${INTERNAL_SERVER_ERROR}`),
         })
       )
-      .finally(() => setIsLoader(false));
+      .finally(() => setIsPreloader(false));
   }
 
   function handleLogin(authenticationData) {
-    setIsLoader(true);
+    setIsPreloader(true);
     mainAPI
       .login(authenticationData)
       .then((jwt) => {
@@ -96,11 +96,11 @@ const App = () => {
             : `Error: ${err} - ${INTERNAL_SERVER_ERROR}`),
         })
       )
-      .finally(() => setIsLoader(false));
+      .finally(() => setIsPreloader(false));
   }
 
   function handleProfile(newUserData) {
-    setIsLoader(true);
+    setIsPreloader(true);
     mainAPI
       .updateCurrentUser(newUserData)
       .then((res) => {
@@ -121,17 +121,17 @@ const App = () => {
         });
       })
       .finally(() => {
-        setIsLoader(false);
+        setIsPreloader(false);
       });
   }
 
   function handleSignOut() {
+    history.push("/");
     setLoggedIn(false);
     localStorage.clear();
-    history.push("/");
   }
 
-  function handleLikeMovie(movie) {
+  function handleSaveMovie(movie) {
     mainAPI
       .createSavedMovie(movie)
       .then((newMovie) => setSavedMovies([newMovie, ...savedMovies]))
@@ -144,7 +144,7 @@ const App = () => {
       );
   }
 
-  function handleDislikeMovie(movie) {
+  function handleUnsaveMovie(movie) {
     const savedMovie = savedMovies.find(
       (item) => item.movieId === movie.id || item.movieId === movie.movieId
     );
@@ -165,14 +165,14 @@ const App = () => {
         setIsTooltip({
           isOpen: true,
           state: false,
-          messageText: err,
+          messageText: `Error: ${err} - ${INTERNAL_SERVER_ERROR}`,
         })
       );
   }
 
   useEffect(() => {
     if (localStorage.getItem("jwt")) {
-      setIsLoader(true);
+      setIsPreloader(true);
       mainAPI
         .getCurrentUser()
         .then((res) => {
@@ -190,7 +190,7 @@ const App = () => {
           })
         )
         .finally(() => {
-          setIsLoader(false);
+          setIsPreloader(false);
           setIsLoad(true);
         });
     } else {
@@ -200,7 +200,7 @@ const App = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      setIsLoader(true);
+      setIsPreloader(true);
       mainAPI
         .getCurrentUser()
         .then((res) => setCurrentUser(res))
@@ -211,7 +211,7 @@ const App = () => {
             messageText: `Error: ${err}`,
           })
         )
-        .finally(() => setIsLoader(false));
+        .finally(() => setIsPreloader(false));
     }
   }, [loggedIn]);
 
@@ -219,8 +219,8 @@ const App = () => {
     if (loggedIn && currentUser) {
       mainAPI
         .getSavedMovies()
-        .then((data) => {
-          const userMovies = data.filter(
+        .then((res) => {
+          const userMovies = res.filter(
             (movie) => movie.owner === currentUser._id
           );
           setSavedMovies(userMovies);
@@ -240,24 +240,24 @@ const App = () => {
   }
 
   function onClickBurgerMenu() {
-    setIsBurgerMenuOpened(!isBurgerMenuOpened);
+    setIsBurgerMenu(!isBurgerMenu);
   }
 
-  function closeTooltip() {
+  function onCloseTooltip() {
     setIsTooltip({ ...isTooltip, isOpen: false });
   }
 
   return (
     <div className="app">
       {!isLoad ? (
-        <Preloader isOpen={isLoader} />
+        <Preloader isPreloader={isPreloader} />
       ) : (
         <CurrentUserContext.Provider value={currentUser}>
           <Route exact path={headerRoutes}>
             <Header
               loggedIn={loggedIn}
+              isBurgerMenu={isBurgerMenu}
               onClickBurgerMenu={onClickBurgerMenu}
-              isBurgerMenuOpened={isBurgerMenuOpened}
             />
           </Route>
           <Switch>
@@ -282,19 +282,19 @@ const App = () => {
               path="/movies"
               component={Movies}
               loggedIn={loggedIn}
-              setIsLoader={setIsLoader}
-              setIsTooltip={setIsTooltip}
               savedMovies={savedMovies}
-              onLikeClick={handleLikeMovie}
-              onDislikeClick={handleDislikeMovie}
+              setIsTooltip={setIsTooltip}
+              onSaveClick={handleSaveMovie}
+              setIsPreloader={setIsPreloader}
+              onUnsaveClick={handleUnsaveMovie}
             />
             <ProtectedRoute
               path="/saved-movies"
-              component={SavedMovies}
               loggedIn={loggedIn}
+              component={SavedMovies}
               savedMovies={savedMovies}
-              onDislikeClick={handleDislikeMovie}
               setIsTooltip={setIsTooltip}
+              onUnsaveClick={handleUnsaveMovie}
             />
             <ProtectedRoute
               path="/profile"
@@ -310,8 +310,8 @@ const App = () => {
           <Route exact path={footerRoutes}>
             <Footer />
           </Route>
-          <Preloader isOpen={isLoader} />
-          <Tooltip status={isTooltip} onClose={closeTooltip} />
+          <Preloader isPreloader={isPreloader} />
+          <Tooltip isTooltip={isTooltip} onCloseTooltip={onCloseTooltip} />
         </CurrentUserContext.Provider>
       )}
     </div>

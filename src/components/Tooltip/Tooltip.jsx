@@ -1,19 +1,19 @@
 import "./Tooltip.css";
 import useEscape from "../../hooks/useEscape";
 
-export default function Tooltip({ onClose, status: { isOpen, state, messageText } }) {
-  function handleClickOverlay(evt) {
-    evt.stopPropagation();
-  }
+export default function Tooltip({
+  onCloseTooltip,
+  isTooltip: { isOpen, state, messageText },
+}) {
 
-  useEscape(onClose, isOpen);
+  useEscape(onCloseTooltip, isOpen);
 
   return (
     <div
       className={`info-tooltip ${isOpen && "info-tooltip_opened"}`}
-      onClick={onClose}
+      onClick={onCloseTooltip}
     >
-      <div className="info-tooltip__wrapper" onClick={handleClickOverlay}>
+      <div className="info-tooltip__wrapper">
         <div className="info-tooltip-container">
           <div
             className={`info-tooltip__status ${
@@ -28,7 +28,7 @@ export default function Tooltip({ onClose, status: { isOpen, state, messageText 
         <button
           type="button"
           className="info-tooltip__close-button"
-          onClick={onClose}
+          onClick={onCloseTooltip}
         ></button>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import "./FilterCheckbox.css";
 
-const FilterCheckbox = ({ isShortMovies, handleShortFilms }) => {
+const FilterCheckbox = ({ isShort, handleShortFilms }) => {
   return (
     <label className="filter">
       <input
         className="filter__checkbox"
         type="checkbox"
-        checked={isShortMovies ? true : false}
+        checked={isShort ? true : false}
         onChange={handleShortFilms}
       />
       <span className="filter__switch"></span>

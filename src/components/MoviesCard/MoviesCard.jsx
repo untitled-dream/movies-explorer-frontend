@@ -6,17 +6,17 @@ import { transformMovieDuration } from "../../utils/utils";
 const MoviesCard = ({
   movie,
   savedMovies,
-  onLikeClick,
-  onDislikeClick,
+  onSaveClick,
+  onUnsaveClick,
 }) => {
   const location = useLocation();
 
-  function handleLikeClick() {
-    onLikeClick(movie);
+  function handleSaveClick() {
+    onSaveClick(movie);
   }
 
-  function handleDislikeClick() {
-    onDislikeClick(movie);
+  function handleUnsaveClick() {
+    onUnsaveClick(movie);
   }
   return (
     <li className="movies-card">
@@ -37,7 +37,7 @@ const MoviesCard = ({
               className={`movies-card__button movies-card__button_type_${
                 savedMovies ? "saved" : "save"
               }`}
-              onClick={savedMovies ? handleDislikeClick : handleLikeClick}
+              onClick={savedMovies ? handleUnsaveClick : handleSaveClick}
             ></button>
           )}
           {location.pathname === "/saved-movies" && (
@@ -45,7 +45,7 @@ const MoviesCard = ({
               className="movies-card__button movies-card__button_type_unsave"
               type="button"
               title="Удалить фильм из сохранённых"
-              onClick={handleDislikeClick}
+              onClick={handleUnsaveClick}
             ></button>
           )}
         </div>

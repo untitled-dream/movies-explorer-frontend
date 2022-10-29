@@ -1,16 +1,19 @@
 import "./SearchForm.css";
 
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useFormValidation } from "../../hooks/useFormValidation";
 
 const SearchForm = ({
-  handleSearchSubmit,
+  isShort,
+  savedMovies,
+  setShowedMovies,
   handleShortFilms,
-  isShortMovies,
+  handleSearchSubmit,
 }) => {
-
+  const location = useLocation();
   const [errorQuery, setErrorQuery] = useState("");
   const { inputValue, handleChange, isValid } = useFormValidation();
 
@@ -24,6 +27,12 @@ const SearchForm = ({
   useEffect(() => {
     setErrorQuery("");
   }, [isValid]);
+
+  useEffect(() => {
+    if (location.pathname === "/saved-movies" && !inputValue.search) {
+      setShowedMovies(savedMovies);
+    }
+  }, [inputValue, savedMovies, setShowedMovies, location]);
 
   return (
     <section className="search">
@@ -50,10 +59,7 @@ const SearchForm = ({
             <span className="search__button-text">Найти</span>
           </button>
         </div>
-        <FilterCheckbox
-          isShortMovies={isShortMovies}
-          handleShortFilms={handleShortFilms}
-        />
+        <FilterCheckbox isShort={isShort} handleShortFilms={handleShortFilms} />
       </form>
     </section>
   );

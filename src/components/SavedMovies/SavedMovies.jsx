@@ -1,25 +1,20 @@
 import "./SavedMovies.css";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { filterMovies, filterShortMovies } from "../../utils/utils.js";
-
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
-const SavedMovies = ({ onDislikeClick, savedMovies, setIsTooltip }) => {
-  const currentUser = useContext(CurrentUserContext);
-
-  const [isShortMovies, setIsShortMovies] = useState(false);
+const SavedMovies = ({ onUnsaveClick, savedMovies, setIsTooltip }) => {
+  const [isShort, setIsShort] = useState(false);
   const [showedMovies, setShowedMovies] = useState(savedMovies);
   const [notFound, setNotFound] = useState(false);
   const [filteredMovies, setFilteredMovies] = useState(showedMovies);
 
-  function handleSearchSubmit(inputValue) {
-    const moviesList = filterMovies(savedMovies, inputValue, isShortMovies);
+  function handleSearchSubmit(query) {
+    const moviesList = filterMovies(savedMovies, query, isShort);
     if (moviesList.length === 0) {
-      setNotFound(true);
       setIsTooltip({
         isOpen: true,
         state: false,
@@ -33,36 +28,30 @@ const SavedMovies = ({ onDislikeClick, savedMovies, setIsTooltip }) => {
   }
 
   function handleShortFilms() {
-    if (!isShortMovies) {
-      setIsShortMovies(true);
-      localStorage.setItem(`${currentUser.email} - shortSavedMoviesSwitcher`, true);
+    if (!isShort) {
+      setIsShort(true);
+      localStorage.setItem("isShortSaved", true);
       setShowedMovies(filterShortMovies(filteredMovies));
       filterShortMovies(filteredMovies).length === 0
         ? setNotFound(true)
         : setNotFound(false);
     } else {
-      setIsShortMovies(false);
-      localStorage.setItem(
-        `${currentUser.email} - shortSavedMoviesSwitcher`,
-        false
-      );
+      setIsShort(false);
+      localStorage.setItem("isShortSaved", false);
       filteredMovies.length === 0 ? setNotFound(true) : setNotFound(false);
       setShowedMovies(filteredMovies);
     }
   }
 
   useEffect(() => {
-    if (
-      localStorage.getItem(`${currentUser.email} - shortSavedMoviesSwitcher`) ===
-      "true"
-    ) {
-      setIsShortMovies(true);
+    if (localStorage.getItem("isShortSaved") === "true") {
+      setIsShort(true);
       setShowedMovies(filterShortMovies(savedMovies));
     } else {
-      setIsShortMovies(false);
+      setIsShort(false);
       setShowedMovies(savedMovies);
     }
-  }, [savedMovies, currentUser]);
+  }, [savedMovies]);
 
   useEffect(() => {
     setFilteredMovies(savedMovies);
@@ -72,7 +61,9 @@ const SavedMovies = ({ onDislikeClick, savedMovies, setIsTooltip }) => {
   return (
     <main className="saved-movies">
       <SearchForm
-        isShortMovies={isShortMovies}
+        isShort={isShort}
+        savedMovies={savedMovies}
+        setShowedMovies={setShowedMovies}
         handleShortFilms={handleShortFilms}
         handleSearchSubmit={handleSearchSubmit}
       />
@@ -80,7 +71,7 @@ const SavedMovies = ({ onDislikeClick, savedMovies, setIsTooltip }) => {
         <MoviesCardList
           movieList={showedMovies}
           savedMovies={savedMovies}
-          onDislikeClick={onDislikeClick}
+          onUnsaveClick={onUnsaveClick}
         />
       )}
     </main>

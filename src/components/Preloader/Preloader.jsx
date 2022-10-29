@@ -1,9 +1,9 @@
 import "./Preloader.css";
 
-const Preloader = ({ isOpen }) => {
+const Preloader = ({ isPreloader }) => {
   return (
     <>
-      {isOpen && (
+      {isPreloader && (
         <div className="preloader">
           <div className="preloader__container">
             <span className="preloader__round"></span>

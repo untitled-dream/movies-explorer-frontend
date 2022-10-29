@@ -9,12 +9,11 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import { getSavedMovie } from "../../utils/utils";
 import { MOVIES_GRID } from "../../utils/constants";
 
-
 const MoviesCardList = ({
   movieList,
   savedMovies,
-  onLikeClick,
-  onDislikeClick,
+  onSaveClick,
+  onUnsaveClick,
 }) => {
   const location = useLocation();
 
@@ -40,7 +39,9 @@ const MoviesCardList = ({
 
   useEffect(() => {
     if (movieList.length) {
-      const res = movieList.filter((item, i) => i < movieCardDisplaySetting.movieCardCount);
+      const res = movieList.filter(
+        (item, i) => i < movieCardDisplaySetting.movieCardCount
+      );
       setShowMovieList(res);
     }
   }, [movieList, movieCardDisplaySetting.movieCardCount]);
@@ -54,7 +55,9 @@ const MoviesCardList = ({
       } else {
         setMovieCardDisplaySetting(mobile.cards);
       }
-      return () => {setIsMount(false)};
+      return () => {
+        setIsMount(false);
+      };
     }
   }, [screenWidth, isMount, desktop, tablet, mobile, location.pathname]);
   return (
@@ -65,12 +68,13 @@ const MoviesCardList = ({
             key={movie.id || movie._id}
             movie={movie}
             savedMovies={getSavedMovie(savedMovies, movie)}
-            onLikeClick={onLikeClick}
-            onDislikeClick={onDislikeClick}
+            onSaveClick={onSaveClick}
+            onUnsaveClick={onUnsaveClick}
           />
         ))}
       </ul>
-      {location.pathname === "/movies" && showMovieList.length >= 5 &&
+      {location.pathname === "/movies" &&
+        showMovieList.length >= 5 &&
         showMovieList.length < movieList.length && (
           <button
             className="movies-list__show-more"
