@@ -15,11 +15,11 @@ const SearchForm = ({
 }) => {
   const location = useLocation();
   const [errorQuery, setErrorQuery] = useState("");
-  const { inputValue, handleChange, isValid } = useFormValidation();
+  const { inputValue, handleChange, isValid} = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    inputValue
+    inputValue.search
       ? handleSearchSubmit(inputValue.search)
       : setErrorQuery("Требуется ввести ключевое слово");
   }
@@ -52,7 +52,6 @@ const SearchForm = ({
             value={inputValue.search || ""}
             onChange={handleChange}
             autoComplete="off"
-            required
           />
           <span className="search__error">{errorQuery}</span>
           <button className="search__button" type="submit">
