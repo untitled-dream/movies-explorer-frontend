@@ -3,6 +3,7 @@
 ### 
 > The Movies Explorer project created with React.
 
+### [Pull Request](https://github.com/untitled-dream/movies-explorer-frontend/pull/2)
 
 ## Table of Contents
 * [Technologies Used](#technologies-used)
