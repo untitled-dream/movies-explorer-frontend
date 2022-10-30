@@ -26,6 +26,8 @@
   font-size: 24px;
   line-height: 29px;
   margin: 0;
+  max-width: 410px;
+  text-align: center;
 }
 
 .profile__input-wrapper {
@@ -157,6 +159,12 @@
     min-height: 596px;
     flex: 1;
     gap: 80px;
+  }
+
+  .profile__heading {
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .profile__button {

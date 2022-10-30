@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "./Register.css";
@@ -9,17 +8,13 @@ import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Register = () => {
-  const { inputValue, errorText, isValid, handleChange, resetForm } =
-    useFormValidation();
+const Register = ({ isSubmitting, handleRegister }) => {
+  const { inputValue, errorText, isValid, handleChange } = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    handleRegister(inputValue);
   }
-
-  useEffect(() => {
-    resetForm();
-  }, [resetForm]);
 
   return (
     <main className="register">
@@ -50,6 +45,7 @@ const Register = () => {
               pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="register__error">{errorText.name || ""}</span>
           </label>
@@ -66,6 +62,7 @@ const Register = () => {
               value={inputValue.email || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="register__error">{errorText.email || ""}</span>
           </label>
@@ -82,11 +79,16 @@ const Register = () => {
               value={inputValue.password || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="register__error">{errorText.password || ""}</span>
           </label>
         </fieldset>
-        <FormSubmitButton buttonText={"Зарегистрироваться"} isValid={isValid} />
+        <FormSubmitButton
+          buttonText={"Зарегистрироваться"}
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+        />
         <FormSupport
           supportText="Уже зарегистрированы?"
           route="/signin"

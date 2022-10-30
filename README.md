@@ -1,12 +1,11 @@
 # Movies Explorer
 
-### 
-> The Movies Explorer project created with React.
-
+- ### Movies Explorer - https://beat-film.nomoredomains.icu
+- ### Pull Request - https://github.com/untitled-dream/movies-explorer-frontend/pull/2
+- ### Figma Layout - https://disk.yandex.ru/d/V2J3rWYx5Dgd0A
 
 ## Table of Contents
 * [Technologies Used](#technologies-used)
-* [Design](#design)
 * [Features](#features)
 * [Setup](#setup)
 
@@ -17,10 +16,6 @@
 - API
 - react: 18.2.0
 - react-router-dom: 5.3.3
-
-
-## Design
-[Figma Layout](https://disk.yandex.ru/d/V2J3rWYx5Dgd0A)
 
 
 ## Features

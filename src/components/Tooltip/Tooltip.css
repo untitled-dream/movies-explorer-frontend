@@ -1,0 +1,109 @@
+.info-tooltip {
+  --icon-size: 50px;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  opacity: 0;
+  position: fixed;
+  transition: all var(--transition-duration, 0.5s);
+  visibility: hidden;
+  width: 100%;
+  z-index: 100;
+}
+
+.info-tooltip_opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.info-tooltip__wrapper {
+  background-color: var(--background-color-alternative, #272727);
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: default;
+  max-width: 500px;
+  padding: 15px;
+  position: relative;
+  width: 100%;
+}
+
+.info-tooltip-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-tooltip__status {
+  aspect-ratio: 1;
+  height: var(--icon-size);
+  margin: 0;
+}
+
+.info-tooltip__status_fail {
+  background: transparent url(../../images/icon-tooltip-fail.svg) no-repeat
+    center;
+    background-size: var(--icon-size);
+}
+
+.info-tooltip__status_success {
+  background: transparent url(../../images/icon-tooltip-success.svg) no-repeat
+    center;
+    background-size: var(--icon-size);
+}
+
+.info-tooltip__title {
+  color: var(--text-color-primary, white);
+  margin: auto 0;
+  flex: 1;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  font-style: normal;
+  text-align: center;
+}
+
+.info-tooltip__close-button {
+  background: transparent url(../../images/icon_close.svg) no-repeat center;
+  background-size: cover;
+  border: none;
+  height: 15px;
+  width: 15px;
+  opacity: 1;
+  position: absolute;
+  padding: 0;
+  top: 10px;
+  right: 10px;
+  transition: all var(--transition-duration, 0.5s);
+}
+
+.info-tooltip__close-button:hover {
+  cursor: pointer;
+  opacity: var(--opacity-value, 0.8);
+}
+
+@media screen and (max-width: 768px) {
+  .info-tooltip {
+    background-color: rgba(0, 0, 0, var(--opacity-value, 0.8));
+  }
+
+  .info-tooltip__close-button {
+    height: 20px;
+    top: -30px;
+    right: 0;
+    width: 20px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .info-tooltip__wrapper {
+    max-width: 300px;
+  }
+
+  .info-tooltip__title {
+    font-size: 16px;
+  }
+}

@@ -9,13 +9,13 @@ import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Login = ({ handleRegister }) => {
+const Login = ({ isSubmitting, handleLogin }) => {
   const { inputValue, errorText, isValid, handleChange, resetForm } =
     useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    handleRegister(inputValue);
+    handleLogin(inputValue);
   }
 
   useEffect(() => {
@@ -48,6 +48,7 @@ const Login = ({ handleRegister }) => {
               value={inputValue.email || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="login__error">{errorText.email || ""}</span>
           </label>
@@ -64,11 +65,16 @@ const Login = ({ handleRegister }) => {
               value={inputValue.password || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="login__error">{errorText.password || ""}</span>
           </label>
         </fieldset>
-        <FormSubmitButton isValid={isValid} buttonText={"Войти"} />
+        <FormSubmitButton
+          isValid={isValid}
+          buttonText={"Войти"}
+          isSubmitting={isSubmitting}
+        />
         <FormSupport
           supportText="Ещё не зарегистрированы?"
           route="/signup"

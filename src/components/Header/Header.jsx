@@ -5,7 +5,7 @@ import "./Header.css";
 import Logo from "../Logo/Logo";
 import Navigation from "../Navigation/Navigation";
 
-const Header = ({ loggedIn, onClickBurgerMenu, isBurgerMenuOpened }) => {
+const Header = ({ loggedIn, isBurgerMenu, onClickBurgerMenu }) => {
   return (
     <header className="header">
       <div className="header__wrapper">
@@ -15,7 +15,7 @@ const Header = ({ loggedIn, onClickBurgerMenu, isBurgerMenuOpened }) => {
         <Navigation
           loggedIn={loggedIn}
           onClickBurgerMenu={onClickBurgerMenu}
-          isBurgerMenuOpened={isBurgerMenuOpened}
+          isBurgerMenu={isBurgerMenu}
         />
       </div>
     </header>

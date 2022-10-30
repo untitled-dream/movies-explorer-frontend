@@ -1,10 +1,23 @@
 import "./MoviesCard.css";
 
 import { useLocation } from "react-router-dom";
+import { transformMovieDuration } from "../../utils/utils"; 
 
-const MoviesCard = ({ movie, saved }) => {
+const MoviesCard = ({
+  movie,
+  savedMovies,
+  onSaveClick,
+  onUnsaveClick,
+}) => {
   const location = useLocation();
 
+  function handleSaveClick() {
+    onSaveClick(movie);
+  }
+
+  function handleUnsaveClick() {
+    onUnsaveClick(movie);
+  }
   return (
     <li className="movies-card">
       <article className="movies-card__item">
@@ -22,8 +35,9 @@ const MoviesCard = ({ movie, saved }) => {
             <button
               type="button"
               className={`movies-card__button movies-card__button_type_${
-                saved ? "saved" : "save"
+                savedMovies ? "saved" : "save"
               }`}
+              onClick={savedMovies ? handleUnsaveClick : handleSaveClick}
             ></button>
           )}
           {location.pathname === "/saved-movies" && (
@@ -31,10 +45,13 @@ const MoviesCard = ({ movie, saved }) => {
               className="movies-card__button movies-card__button_type_unsave"
               type="button"
               title="Удалить фильм из сохранённых"
+              onClick={handleUnsaveClick}
             ></button>
           )}
         </div>
-        <span className="movies-card__duration">{movie.duration}</span>
+        <span className="movies-card__duration">
+          {transformMovieDuration(movie.duration)}
+        </span>
       </article>
     </li>
   );

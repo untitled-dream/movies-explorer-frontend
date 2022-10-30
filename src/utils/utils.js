@@ -1,47 +1,47 @@
-export const MovieList = [
-  {
-    id: "1",
-    trailerLink:
-      "https://www.imdb.com/video/vi3099525401/?playlistId=tt0765460?ref_=ext_shr_lnk",
-    image:
-      "https://img.freepik.com/premium-photo/abstract-blurred-outdoor-parking-for-background_3249-2630.jpg",
-    nameRU: "Фильм 1",
-    duration: "1ч 36м",
-  },
-  {
-    id: "2",
-    trailerLink:
-      "https://www.imdb.com/video/vi3099525401/?playlistId=tt0765460?ref_=ext_shr_lnk",
-    image:
-      "https://img.freepik.com/premium-photo/abstract-blurred-outdoor-parking-for-background_3249-2630.jpg",
-    nameRU: "Фильм 2",
-    duration: "3ч 09м",
-  },
-  {
-    id: "3",
-    trailerLink:
-      "https://www.imdb.com/video/vi3099525401/?playlistId=tt0765460?ref_=ext_shr_lnk",
-    image:
-      "https://img.freepik.com/premium-photo/abstract-blurred-outdoor-parking-for-background_3249-2630.jpg",
-    nameRU: "Фильм 3",
-    duration: "2ч 25м",
-  },
-  {
-    id: "4",
-    trailerLink:
-      "https://www.imdb.com/video/vi3099525401/?playlistId=tt0765460?ref_=ext_shr_lnk",
-    image:
-      "https://img.freepik.com/premium-photo/abstract-blurred-outdoor-parking-for-background_3249-2630.jpg",
-    nameRU: "Фильм 4",
-    duration: "1ч 11м",
-  },
-  {
-    id: "5",
-    trailerLink:
-      "https://www.imdb.com/video/vi3099525401/?playlistId=tt0765460?ref_=ext_shr_lnk",
-    image:
-      "https://img.freepik.com/premium-photo/abstract-blurred-outdoor-parking-for-background_3249-2630.jpg",
-    nameRU: "Фильм 5",
-    duration: "2ч 45м",
-  },
-];
+import { SHORTMOVIE_DURATION } from "./constants";
+
+function transformMovieDuration(duration) {
+  const hours = Math.trunc(duration / 60);
+  const minutes = duration % 60;
+  if (hours === 0) {
+    return `${minutes}м`;
+  } else {
+    return `${hours}ч ${minutes}м`;
+  }
+}
+
+function filterShortMovies(movies) {
+  return movies.filter(movie => movie.duration < SHORTMOVIE_DURATION);
+}
+
+function filterMovies(movies, query, isShortMoviesSwitcher) {
+  const moviesByQuery = movies.filter((movie) => {
+    const movieRU = String(movie.nameRU).toLowerCase().trim();
+    const movieEN = String(movie.nameEN).toLowerCase().trim();
+    const userMovie = query.toLowerCase().trim();
+
+    return movieRU.indexOf(userMovie) !== -1 || movieEN.indexOf(userMovie) !== -1;
+  });
+
+  if (isShortMoviesSwitcher) {
+    return filterShortMovies(moviesByQuery);
+  } else {
+    return moviesByQuery;
+  }
+}
+
+function transformMovies(movies) {
+  movies.forEach(movie => {
+    movie.thumbnail = `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
+    movie.image = `https://api.nomoreparties.co${movie.image.url}`
+  });
+  return movies
+}
+
+function getSavedMovie(array, movie) {
+  return array.find((item) => {
+    return item.movieId === (movie.id || movie.movieId);
+  });
+}
+
+export { transformMovieDuration, filterShortMovies, filterMovies, transformMovies, getSavedMovie }
