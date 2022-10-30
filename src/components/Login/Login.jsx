@@ -9,7 +9,7 @@ import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Login = ({ handleLogin }) => {
+const Login = ({ isSubmitting, handleLogin }) => {
   const { inputValue, errorText, isValid, handleChange, resetForm } =
     useFormValidation();
 
@@ -48,6 +48,7 @@ const Login = ({ handleLogin }) => {
               value={inputValue.email || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="login__error">{errorText.email || ""}</span>
           </label>
@@ -64,11 +65,16 @@ const Login = ({ handleLogin }) => {
               value={inputValue.password || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="login__error">{errorText.password || ""}</span>
           </label>
         </fieldset>
-        <FormSubmitButton isValid={isValid} buttonText={"Войти"} />
+        <FormSubmitButton
+          isValid={isValid}
+          buttonText={"Войти"}
+          isSubmitting={isSubmitting}
+        />
         <FormSupport
           supportText="Ещё не зарегистрированы?"
           route="/signup"

@@ -47,6 +47,7 @@ const App = () => {
     state: false,
     messageText: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isBurgerMenu, setIsBurgerMenu] = useState(false);
 
   const [savedMovies, setSavedMovies] = useState([]);
@@ -56,6 +57,7 @@ const App = () => {
 
   function handleRegister(registrationData) {
     setIsPreloader(true);
+    setIsSubmitting(true);
     mainAPI
       .createUser(registrationData)
       .then(() => {
@@ -64,20 +66,24 @@ const App = () => {
           password: registrationData.password,
         });
       })
-      .catch((err) =>
+      .catch((err) => {
         setIsTooltip({
           isOpen: true,
           state: false,
-          messageText: (err = "409"
+          messageText: (err === "409"
             ? NOT_UNIQUE_EMAIL_VALUE
             : `Error: ${err} - ${INTERNAL_SERVER_ERROR}`),
-        })
-      )
-      .finally(() => setIsPreloader(false));
+        });
+      })
+      .finally(() => {
+        setIsPreloader(false);
+        setIsSubmitting(false);
+      });
   }
 
   function handleLogin(authenticationData) {
     setIsPreloader(true);
+    setIsSubmitting(true);
     mainAPI
       .login(authenticationData)
       .then((jwt) => {
@@ -87,16 +93,19 @@ const App = () => {
           history.push("/movies");
         }
       })
-      .catch((err) =>
+      .catch((err) => {
         setIsTooltip({
           isOpen: true,
           state: false,
-          messageText: (err = "401"
+          messageText: (err === "401"
             ? AUTH_ERROR
             : `Error: ${err} - ${INTERNAL_SERVER_ERROR}`),
-        })
-      )
-      .finally(() => setIsPreloader(false));
+        });
+      })
+      .finally(() => {
+        setIsPreloader(false);
+        setIsSubmitting(false);
+      });
   }
 
   function handleProfile(newUserData) {
@@ -112,10 +121,11 @@ const App = () => {
         });
       })
       .catch((err) => {
+        console.log(err);
         setIsTooltip({
           isOpen: true,
           state: false,
-          messageText: (err = "409"
+          messageText: (err === "409"
             ? NOT_UNIQUE_EMAIL_VALUE
             : `Error: ${err} - ${INTERNAL_SERVER_ERROR}`),
         });
@@ -135,13 +145,13 @@ const App = () => {
     mainAPI
       .createSavedMovie(movie)
       .then((newMovie) => setSavedMovies([newMovie, ...savedMovies]))
-      .catch((err) =>
+      .catch((err) => {
         setIsTooltip({
           isOpen: true,
           state: false,
           messageText: `Error: ${err}`,
-        })
-      );
+        });
+      });
   }
 
   function handleUnsaveMovie(movie) {
@@ -182,13 +192,9 @@ const App = () => {
             history.push(location.pathname);
           }
         })
-        .catch((err) =>
-          setIsTooltip({
-            isOpen: true,
-            state: false,
-            messageText: `Error: ${err}`,
-          })
-        )
+        .catch((err) => {
+          handleSignOut();
+        })
         .finally(() => {
           setIsPreloader(false);
           setIsLoad(true);
@@ -266,14 +272,17 @@ const App = () => {
             </Route>
             <Route exact path="/signup">
               {!loggedIn ? (
-                <Register handleRegister={handleRegister} />
+                <Register
+                  handleRegister={handleRegister}
+                  isSubmitting={isSubmitting}
+                />
               ) : (
                 <Redirect to="/" />
               )}
             </Route>
             <Route exact path="/signin">
               {!loggedIn ? (
-                <Login handleLogin={handleLogin} />
+                <Login handleLogin={handleLogin} isSubmitting={isSubmitting} />
               ) : (
                 <Redirect to="/" />
               )}

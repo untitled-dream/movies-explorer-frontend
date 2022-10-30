@@ -15,7 +15,7 @@ const SearchForm = ({
 }) => {
   const location = useLocation();
   const [errorQuery, setErrorQuery] = useState("");
-  const { inputValue, handleChange, isValid} = useFormValidation();
+  const { inputValue, handleChange, isValid } = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -23,6 +23,16 @@ const SearchForm = ({
       ? handleSearchSubmit(inputValue.search)
       : setErrorQuery("Требуется ввести ключевое слово");
   }
+
+  useEffect(() => {
+    if (
+      location.pathname === "/movies" &&
+      localStorage.getItem("searchValue")
+    ) {
+      const searchValue = localStorage.getItem("searchValue");
+      inputValue.search = searchValue;
+    }
+  }, []);
 
   useEffect(() => {
     setErrorQuery("");

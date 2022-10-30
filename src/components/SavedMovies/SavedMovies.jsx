@@ -7,9 +7,10 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 const SavedMovies = ({ onUnsaveClick, savedMovies, setIsTooltip }) => {
+  
   const [isShort, setIsShort] = useState(false);
-  const [showedMovies, setShowedMovies] = useState(savedMovies);
   const [notFound, setNotFound] = useState(false);
+  const [showedMovies, setShowedMovies] = useState(savedMovies);
   const [filteredMovies, setFilteredMovies] = useState(showedMovies);
 
   function handleSearchSubmit(query) {
@@ -30,28 +31,16 @@ const SavedMovies = ({ onUnsaveClick, savedMovies, setIsTooltip }) => {
   function handleShortFilms() {
     if (!isShort) {
       setIsShort(true);
-      localStorage.setItem("isShortSaved", true);
       setShowedMovies(filterShortMovies(filteredMovies));
       filterShortMovies(filteredMovies).length === 0
         ? setNotFound(true)
         : setNotFound(false);
     } else {
       setIsShort(false);
-      localStorage.setItem("isShortSaved", false);
       filteredMovies.length === 0 ? setNotFound(true) : setNotFound(false);
       setShowedMovies(filteredMovies);
     }
   }
-
-  useEffect(() => {
-    if (localStorage.getItem("isShortSaved") === "true") {
-      setIsShort(true);
-      setShowedMovies(filterShortMovies(savedMovies));
-    } else {
-      setIsShort(false);
-      setShowedMovies(savedMovies);
-    }
-  }, [savedMovies]);
 
   useEffect(() => {
     setFilteredMovies(savedMovies);

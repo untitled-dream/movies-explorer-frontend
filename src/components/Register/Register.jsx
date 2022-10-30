@@ -8,14 +8,12 @@ import FormSupport from "../FormSupport/FormSupport";
 
 import { useFormValidation } from "../../hooks/useFormValidation";
 
-const Register = ({ handleRegister }) => {
-  const { inputValue, errorText, isValid, handleChange, resetForm } =
-    useFormValidation();
+const Register = ({ isSubmitting, handleRegister }) => {
+  const { inputValue, errorText, isValid, handleChange } = useFormValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
     handleRegister(inputValue);
-    resetForm();
   }
 
   return (
@@ -47,6 +45,7 @@ const Register = ({ handleRegister }) => {
               pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="register__error">{errorText.name || ""}</span>
           </label>
@@ -63,6 +62,7 @@ const Register = ({ handleRegister }) => {
               value={inputValue.email || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="register__error">{errorText.email || ""}</span>
           </label>
@@ -79,11 +79,16 @@ const Register = ({ handleRegister }) => {
               value={inputValue.password || ""}
               autoComplete="off"
               required
+              disabled={isSubmitting}
             />
             <span className="register__error">{errorText.password || ""}</span>
           </label>
         </fieldset>
-        <FormSubmitButton buttonText={"Зарегистрироваться"} isValid={isValid} />
+        <FormSubmitButton
+          buttonText={"Зарегистрироваться"}
+          isValid={isValid}
+          isSubmitting={isSubmitting}
+        />
         <FormSupport
           supportText="Уже зарегистрированы?"
           route="/signin"
